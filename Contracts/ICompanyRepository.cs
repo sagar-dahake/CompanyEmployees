@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Text;
+using Entities.Models;
+
+namespace Contracts
+{
+    public interface ICompanyRepository
+    {
+
+
+        Task<IEnumerable<Company>> GetAllCompaniesAsync(bool trackChanges);
+         Task <Company> GetCompanyAsync(Guid CompanyId, bool trackChanges);
+
+        void CreateCompany(Company company);
+
+        Task<IEnumerable<Company>> GetByIdsAsync(IEnumerable<Guid> ids, bool trackChanges);
+
+        void DeleteCompany(Company company);
+
+
+
+    }
+}

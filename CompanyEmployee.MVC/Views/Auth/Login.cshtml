@@ -1,0 +1,38 @@
+﻿@model CompanyEmployee.MVC.Models.Dtos.Authentication.LoginDto
+
+<div class="login-wrapper">
+
+    <!-- LEFT BRAND PANEL -->
+    <div class="login-brand">
+        <h1>Company Employees</h1>
+        <p>Enterprise Workforce Management Platform</p>
+    </div>
+
+    <!-- RIGHT LOGIN PANEL -->
+    <div class="login-panel">
+        <div class="login-card">
+
+            <h3 class="login-title">Sign in</h3>
+
+            <form asp-action="Login" method="post">
+
+                <div class="mb-3">
+                    <label>UserName</label>
+                    <input asp-for="UserName" class="form-control input-enterprise" />
+                </div>
+
+                <div class="mb-4">
+                    <label>Password</label>
+                    <input asp-for="Password" type="password"
+                           class="form-control input-enterprise" />
+                </div>
+
+                <button type="submit" class="btn btn-enterprise w-100">
+                    Sign in
+                </button>
+
+            </form>
+        </div>
+    </div>
+
+</div>

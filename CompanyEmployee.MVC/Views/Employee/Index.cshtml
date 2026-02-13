@@ -1,0 +1,48 @@
+﻿@model List<CompanyEmployee.MVC.Models.Dtos.Employee.EmployeeDto>
+
+<div class="breadcrumb-custom">
+    Companies / @ViewBag.CompanyName
+</div>
+
+<div class="page-header">
+    Employees — @ViewBag.CompanyName
+</div>
+
+<div class="card-enterprise">
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-state">
+            <h5>No Employees Found</h5>
+            <p>This company currently has no registered employees.</p>
+        </div>
+    }
+    else
+    {
+        <table class="table table-enterprise">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Position</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var emp in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">@emp.Name</td>
+                        <td>@emp.Age</td>
+                        <td>
+                            <span class="badge-enterprise">
+                                @emp.Position
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

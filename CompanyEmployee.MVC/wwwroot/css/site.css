@@ -1,0 +1,343 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////*/
+/* ===========================
+   ENTERPRISE DASHBOARD STYLE
+=========================== */
+
+body {
+    background-color: #f4f6f9;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    background: #1f2937;
+    color: white;
+    padding-top: 20px;
+}
+
+    .sidebar a {
+        color: #cbd5e1;
+        display: block;
+        padding: 12px 20px;
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+        .sidebar a:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .sidebar a.active {
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+        }
+
+/* Main Content */
+.main-content {
+    margin-left: 240px;
+    padding: 30px;
+}
+
+/* Page Header */
+.page-header {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* Breadcrumb */
+.breadcrumb-custom {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 15px;
+}
+
+/* Cards */
+.card-enterprise {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.06);
+}
+
+/* Tables */
+.table-enterprise thead {
+    background-color: #111827;
+    color: white;
+}
+
+.table-enterprise tbody tr:hover {
+    background-color: #f3f4f6;
+}
+
+/* Buttons */
+.btn-enterprise {
+    background-color: #2563eb;
+    color: white;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 14px;
+}
+
+    .btn-enterprise:hover {
+        background-color: #1d4ed8;
+        color: white;
+    }
+
+/* ===== ENTERPRISE PRO UI ===== */
+
+.page-header {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+.breadcrumb-custom {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.card-enterprise {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.table-enterprise thead {
+    background: #111827;
+    color: #fff;
+}
+
+.table-enterprise tbody tr {
+    transition: all .15s ease;
+}
+
+    .table-enterprise tbody tr:hover {
+        background: #f3f4f6;
+        transform: scale(1.002);
+    }
+
+.badge-enterprise {
+    background: #eef2ff;
+    color: #4338ca;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 10px;
+    color: #6b7280;
+}
+/* ===== ENTERPRISE LOGIN PRO ===== */
+
+.login-wrapper {
+    display: flex;
+    height: 100vh;
+    background: #f4f6f9;
+}
+
+/* LEFT BRAND PANEL */
+.login-brand {
+    flex: 1;
+    background: linear-gradient(135deg,#0f172a,#1e293b);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+}
+
+    .login-brand h1 {
+        font-weight: 700;
+        font-size: 42px;
+    }
+
+    .login-brand p {
+        opacity: .7;
+        margin-top: 10px;
+    }
+
+/* RIGHT PANEL */
+.login-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* GLASS CARD */
+.login-card {
+    width: 380px;
+    background: white;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.08);
+}
+
+.login-title {
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+/* INPUT STYLE */
+.input-enterprise {
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* BUTTON */
+.btn-enterprise {
+    background: #2563eb;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+    .btn-enterprise:hover {
+        background: #1d4ed8;
+    }
+
+/* ===== ENTERPRISE PRO LAYOUT ===== */
+
+.content-wrapper {
+    background: #ffffff;
+    padding: 28px 32px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    animation: fadeInPage .25s ease-in-out;
+}
+
+@keyframes fadeInPage {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sticky sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+}
+
+/* Smart spacing scale */
+.main-content {
+    margin-left: 240px;
+    padding: 40px;
+}
+.row-hover-enterprise {
+    transition: all .18s ease;
+}
+
+    .row-hover-enterprise:hover {
+        background: #f9fafb;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+.page-header {
+    letter-spacing: .2px;
+}
+
+.card-enterprise small {
+    font-size: 13px;
+    opacity: .7;
+}
+
+
+/* ===== ENTERPRISE TOPBAR ===== */
+
+.topbar-enterprise {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 14px 22px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    margin-bottom: 25px;
+}
+
+.topbar-left {
+    font-size: 15px;
+    color: #1f2937;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.logout-btn {
+    background: #ef4444;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: .2s;
+}
+
+    .logout-btn:hover {
+        background: #dc2626;
+        color: white;
+    }
+

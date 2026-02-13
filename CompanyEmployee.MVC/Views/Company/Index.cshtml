@@ -1,0 +1,44 @@
+﻿@model List<CompanyEmployee.MVC.Models.Dtos.Company.CompanyDto>
+
+<div class="breadcrumb-custom">
+    Companies
+</div>
+
+<div class="page-header">
+    Companies
+</div>
+
+<div class="card-enterprise">
+
+    <table class="table table-enterprise align-middle">
+        <thead>
+            <tr>
+                <th style="width:70%">Company</th>
+                <th class="text-end">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr class="row-hover-enterprise">
+                    <td>
+                        <div class="fw-semibold">@c.Name</div>
+                        <small class="text-muted">@c.FullAddress</small>
+                    </td>
+
+                    <td class="text-end">
+                        <a asp-controller="Employee"
+                           asp-action="Index"
+                           asp-route-companyId="@c.Id"
+                           asp-route-companyName="@c.Name"
+                           class="btn btn-enterprise">
+                            View Employees →
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

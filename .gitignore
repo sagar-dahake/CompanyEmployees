@@ -1,0 +1,13 @@
+.vs/
+bin/
+obj/
+
+*.user
+*.suo
+*.cache
+*.db
+*.opendb
+
+TestResults/
+DesignTimeBuild/
+FileContentIndex/

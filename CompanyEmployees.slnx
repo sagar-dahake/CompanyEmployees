@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="CompanyEmployee.MVC/CompanyEmployee.MVC.csproj" Id="fae9d9f4-cfee-4a34-bbfc-225ee1ef65a6" />
+  <Project Path="CompanyEmployees/CompanyEmployees.csproj" />
+  <Project Path="Contracts/Contracts.csproj" />
+  <Project Path="Entities/Entities.csproj" />
+  <Project Path="LoggerService/LoggerService.csproj" />
+  <Project Path="Presentation/Presentation.csproj" Id="9638d2b2-5e52-4c14-82ef-19ed7441d182" />
+  <Project Path="Repository/Repository.csproj" />
+  <Project Path="Service/Service.csproj" Id="1ff3dd11-8d0b-4349-b32e-e85acde0b261" />
+  <Project Path="ServiceContracts/ServiceContracts.csproj" Id="599128af-fc34-4574-a072-b24ce05fba21" />
+  <Project Path="Shared/Shared.csproj" Id="110e50a7-ce4c-4058-8795-abbfcf2c5a43" />
+</Solution>
