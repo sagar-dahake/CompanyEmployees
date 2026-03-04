@@ -1,0 +1,50 @@
+﻿@model CompanyEmployee.MVC.Models.Dtos.Employee.EmployeeCreateDto
+
+<div class="breadcrumb-custom">
+    Companies / Employees / Create
+</div>
+
+<div class="page-header">
+    Create Employee
+</div>
+
+<div class="card-enterprise">
+
+    <form method="post">
+
+        <input type="hidden" name="companyId" value="@ViewBag.CompanyId" />
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Name</label>
+                <input asp-for="Name" class="form-control input-enterprise"/>
+            </div>
+
+            <div class="col-md-3 mb-3">
+                <label>Age</label>
+                <input asp-for="Age" class="form-control input-enterprise"/>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Position</label>
+                <input asp-for="Position" class="form-control input-enterprise"/>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="text-end">
+            <a asp-action="Index"
+               asp-route-companyId="@ViewBag.CompanyId"
+               class="btn btn-outline-secondary me-2">
+                Cancel
+            </a>
+
+            <button class="btn-enterprise">
+                Create Employee
+            </button>
+        </div>
+
+    </form>
+
+</div>

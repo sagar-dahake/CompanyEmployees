@@ -11,6 +11,9 @@ builder.Services.ConfigureApiClients(builder.Configuration);
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
+	builder.Services.AddScoped<ISalaryService, SalaryService>();
+	builder.Services.AddScoped<IPayslipService, PayslipService>();
+	builder.Services.AddScoped<ILeaveService, LeaveService>();
 
 
 builder.Services.AddSession();

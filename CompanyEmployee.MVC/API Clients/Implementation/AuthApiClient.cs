@@ -18,7 +18,7 @@ namespace CompanyEmployee.MVC.API_Clients.Implementation
             var response = await _client.PostAsJsonAsync(
                 "authentication/login", dto);
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
 
             return await response.Content.ReadFromJsonAsync<TokenDto>();
         }

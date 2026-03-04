@@ -1,0 +1,83 @@
+﻿@model IEnumerable<Shared.DataTransferObjects.PayslipDto>
+
+@{
+    ViewData["Title"] = "Payslips";
+    var employeeId = ViewBag.EmployeeId as Guid? ?? Guid.Empty;
+    var employeeName = ViewBag.EmployeeName as string ?? "Employee";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <div class="page-header mb-1">Payslips</div>
+        <div class="text-muted">
+            <i class="bi bi-person me-1"></i>@employeeName
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-controller="Employee" asp-action="Details" asp-route-id="@employeeId" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Back to Employee
+        </a>
+        <a asp-action="Create" asp-route-employeeId="@employeeId" class="btn btn-enterprise">
+            <i class="bi bi-file-earmark-plus me-1"></i> Generate Payslip
+        </a>
+    </div>
+</div>
+
+<div class="card-enterprise">
+    @if (!Model?.Any() ?? true)
+    {
+        <div class="empty-state">
+            <i class="bi bi-file-earmark-text" style="font-size:3rem; color:var(--muted);"></i>
+            <h5 class="mt-3">No Payslips Found</h5>
+            <p>No payslips have been generated for this employee yet.</p>
+            <a asp-action="Create" asp-route-employeeId="@employeeId" class="btn btn-enterprise mt-2">
+                <i class="bi bi-file-earmark-plus me-1"></i> Generate First Payslip
+            </a>
+        </div>
+    }
+    else
+    {
+        <table class="table table-enterprise">
+            <thead>
+                <tr>
+                    <th>Period</th>
+                    <th>Gross Amount</th>
+                    <th>Tax</th>
+                    <th>Deductions</th>
+                    <th>Net Amount</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr class="row-hover-enterprise">
+                        <td>
+                            <i class="bi bi-calendar3 me-2"></i>
+                            <span class="fw-semibold">@p.PayslipDate.ToString("MMMM yyyy")</span>
+                        </td>
+                        <td>@p.GrossAmount.ToString("C")</td>
+                        <td class="text-danger">-@p.TaxAmount.ToString("C")</td>
+                        <td class="text-danger">-@p.Deductions.ToString("C")</td>
+                        <td class="fw-semibold" style="color:var(--accent);">
+                            @p.NetAmount.ToString("C")
+                        </td>
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-2">
+                                <a asp-action="Get" asp-route-employeeId="@employeeId" asp-route-id="@p.Id" class="btn btn-sm btn-primary" title="View">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                <form asp-action="Delete" asp-route-employeeId="@employeeId" asp-route-id="@p.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this payslip?');">
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

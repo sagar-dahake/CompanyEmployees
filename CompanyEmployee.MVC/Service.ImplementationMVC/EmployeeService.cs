@@ -24,6 +24,28 @@ namespace CompanyEmployee.MVC.Service.ImplementationMVC
             return await _apiClient.GetAll(companyId);
         }
 
+
+        public async Task<EmployeeDto> Get(Guid companyId, Guid id)
+        {
+            return await _apiClient.Get(companyId, id);
+        }
+
+        public async Task Create(Guid companyId, EmployeeCreateDto employee)
+        {
+            await _apiClient.Create(companyId, employee);
+        }
+
+        public async Task Update(Guid companyId, Guid id, EmployeeUpdateDto employee)
+        {
+            await _apiClient.Update(companyId, id, employee);
+        }
+
+        public async Task Delete(Guid companyId, Guid id)
+        {
+            await _apiClient.Delete(companyId, id);
+        }
+
+
     }
 
 }

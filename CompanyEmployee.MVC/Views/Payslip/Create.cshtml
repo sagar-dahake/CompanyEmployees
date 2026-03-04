@@ -1,0 +1,66 @@
+﻿@model Shared.DataTransferObjects.PayslipForCreationDto
+
+@{
+    ViewData["Title"] = "Generate Payslip";
+    var employeeId = ViewBag.EmployeeId as Guid? ?? Guid.Empty;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="mb-0">Generate Payslip</h2>
+        <div class="text-muted small">Create a payslip snapshot for the selected period</div>
+    </div>
+    <div>
+        <a asp-controller="Payslip" asp-action="Index" asp-route-employeeId="@employeeId" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+</div>
+
+<form asp-controller="Payslip" asp-action="Create" asp-route-employeeId="@employeeId" method="post" class="row g-3 card-surface">
+    @Html.AntiForgeryToken()
+
+    <div class="col-md-6">
+        <label asp-for="GrossAmount" class="form-label">Gross Amount</label>
+        <input asp-for="GrossAmount" class="form-control" step="0.01" />
+        <span asp-validation-for="GrossAmount" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="TaxAmount" class="form-label">Tax Amount</label>
+        <input asp-for="TaxAmount" class="form-control" step="0.01" />
+        <span asp-validation-for="TaxAmount" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Deductions" class="form-label">Deductions</label>
+        <input asp-for="Deductions" class="form-control" step="0.01" />
+        <span asp-validation-for="Deductions" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="NetAmount" class="form-label">Net Amount</label>
+        <input asp-for="NetAmount" class="form-control" step="0.01" />
+        <span asp-validation-for="NetAmount" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="SalaryId" class="form-label">Salary Id (optional)</label>
+        <input asp-for="SalaryId" class="form-control" />
+        <span asp-validation-for="SalaryId" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="PayslipDate" class="form-label">Payslip Date</label>
+        <input asp-for="PayslipDate" type="date" class="form-control" />
+        <span asp-validation-for="PayslipDate" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 text-end">
+        <button type="submit" class="btn btn-primary">Generate</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

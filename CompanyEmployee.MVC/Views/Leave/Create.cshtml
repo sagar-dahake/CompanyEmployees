@@ -1,0 +1,66 @@
+﻿@model Shared.DataTransferObjects.LeaveRecordForCreationDto
+
+@{
+    ViewData["Title"] = "Request Leave";
+    var employeeId = ViewBag.EmployeeId as Guid? ?? Guid.Empty;
+    var leaveTypes = new[] { "Paid", "Unpaid", "Sick", "Casual", "Maternity", "Paternity", "Other" };
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="mb-0">Request Leave</h2>
+        <div class="text-muted small">Submit a leave request</div>
+    </div>
+    <div>
+        <a asp-controller="Leave" asp-action="Index" asp-route-employeeId="@employeeId" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+</div>
+
+<form asp-controller="Leave" asp-action="Create" asp-route-employeeId="@employeeId" method="post" class="row g-3 card-surface">
+    @Html.AntiForgeryToken()
+
+    <div class="col-md-6">
+        <label asp-for="Type" class="form-label">Leave Type</label>
+        <select asp-for="Type" class="form-select">
+            @foreach (var t in leaveTypes)
+            {
+                <option value="@t">@t</option>
+            }
+        </select>
+        <span asp-validation-for="Type" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="Days" class="form-label">Days (optional)</label>
+        <input asp-for="Days" type="number" class="form-control" min="0" />
+        <span asp-validation-for="Days" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="StartDate" class="form-label">Start Date</label>
+        <input asp-for="StartDate" type="date" class="form-control" />
+        <span asp-validation-for="StartDate" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="EndDate" class="form-label">End Date</label>
+        <input asp-for="EndDate" type="date" class="form-control" />
+        <span asp-validation-for="EndDate" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12">
+        <label asp-for="Reason" class="form-label">Reason</label>
+        <textarea asp-for="Reason" class="form-control" rows="3" maxlength="1000"></textarea>
+        <span asp-validation-for="Reason" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 text-end">
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

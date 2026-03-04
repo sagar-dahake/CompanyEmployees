@@ -1,38 +1,193 @@
 ﻿@model CompanyEmployee.MVC.Models.Dtos.Authentication.LoginDto
 
-<div class="login-wrapper">
+<style>
+    :root {
+        --hero-w: 1200px;
+        --hero-h: 700px;
+        --panel-radius: 22px;
+        --accent: #7c5cff;
+        --muted: rgba(255,255,255,0.65);
+    }
 
-    <!-- LEFT BRAND PANEL -->
-    <div class="login-brand">
-        <h1>Company Employees</h1>
-        <p>Enterprise Workforce Management Platform</p>
-    </div>
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
 
-    <!-- RIGHT LOGIN PANEL -->
-    <div class="login-panel">
-        <div class="login-card">
+    /* full viewport hero */
+    .auth-hero {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(1200px circle at 10% 20%, rgba(124,92,255,0.04), transparent 8%), linear-gradient(180deg, rgba(8,10,18,1), rgba(18,20,36,1));
+        overflow: hidden;
+    }
 
-            <h3 class="login-title">Sign in</h3>
+    /* main rounded container (big card) */
+    .hero-panel {
+        width: min(var(--hero-w), 92vw);
+        height: min(var(--hero-h), 86vh);
+        border-radius: var(--panel-radius);
+        position: relative;
+        overflow: hidden;
+        padding: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 40px 110px rgba(3,6,15,0.75), inset 0 1px 0 rgba(255,255,255,0.02);
+        background: linear-gradient(180deg, rgba(10,12,20,0.98), rgba(20,22,36,0.98));
+    }
 
-            <form asp-action="Login" method="post">
+        /* decorative elongated blob */
+        .hero-panel::before {
+            content: "";
+            position: absolute;
+            left: -10%;
+            top: 12%;
+            width: 85%;
+            height: 60%;
+            border-radius: 100px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            transform: rotate(-16deg);
+            filter: blur(10px);
+            opacity: .11;
+        }
 
-                <div class="mb-3">
-                    <label>UserName</label>
-                    <input asp-for="UserName" class="form-control input-enterprise" />
-                </div>
+        /* small decorative circles */
+        .hero-panel .decor-dot {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            right: 6%;
+            bottom: 8%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.02), transparent 40%);
+            opacity: .08;
+            pointer-events: none;
+        }
 
-                <div class="mb-4">
-                    <label>Password</label>
-                    <input asp-for="Password" type="password"
-                           class="form-control input-enterprise" />
-                </div>
+    /* center column */
+    .center-col {
+        z-index: 3;
+        width: 100%;
+        max-width: 420px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+    }
 
-                <button type="submit" class="btn btn-enterprise w-100">
-                    Sign in
-                </button>
+    .brand-logo {
+        color: #fff;
+        font-size: 40px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        text-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    }
 
-            </form>
+    .login-card {
+        width: 100%;
+        border-radius: 12px;
+        padding: 20px;
+        background: linear-gradient(180deg, rgba(12,14,24,0.88), rgba(22,24,36,0.88));
+        box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+        border: 1px solid rgba(255,255,255,0.03);
+    }
+
+        .login-card .form-label {
+            color: var(--muted);
+            font-size: .75rem;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+    .form-control {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.04);
+        color: #fff;
+        border-radius: 8px;
+        padding: .65rem .9rem;
+        height: 42px;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.01);
+    }
+
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.32);
+            text-transform: uppercase;
+            font-size: .72rem;
+        }
+
+    .btn-login {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: .5rem;
+        background: linear-gradient(90deg, var(--accent), #5b46e8);
+        border: none;
+        color: #fff;
+        padding: .6rem 1.2rem;
+        border-radius: 24px;
+        font-weight: 700;
+        width: 160px;
+        margin: 10px auto 0;
+    }
+
+    .forgot {
+        color: rgba(255,255,255,0.55);
+        font-size: .82rem;
+        margin-top: 10px;
+        text-decoration: underline;
+        display: block;
+        text-align: center;
+    }
+
+    @@media (max-width: 720px) {
+        .hero-panel {
+            padding: 20px;
+            height: 92vh;
+            width: 94vw;
+        }
+
+        .brand-logo {
+            font-size: 28px;
+        }
+
+        .center-col {
+            gap: 16px;
+        }
+    }
+</style>
+
+<div class="auth-hero" role="main" aria-live="polite">
+    <div class="hero-panel" role="region" aria-label="Auth panel">
+        <div class="decor-dot" aria-hidden="true"></div>
+
+        <div class="center-col" role="form" aria-label="Sign in">
+            <h1 class="brand-logo">gratafy</h1>
+
+            <div class="login-card" aria-label="Sign in card">
+                <form asp-action="Login" method="post" novalidate>
+                    <div class="mb-3">
+                        <label asp-for="UserName" class="form-label">Email</label>
+                        <input asp-for="UserName" class="form-control" placeholder="Email address" />
+                        <span asp-validation-for="UserName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn-login">LOG IN</button>
+                    </div>
+
+                    <a asp-action="ForgotPassword" class="forgot">FORGOT YOUR PASSWORD?</a>
+                </form>
+            </div>
         </div>
     </div>
-
 </div>

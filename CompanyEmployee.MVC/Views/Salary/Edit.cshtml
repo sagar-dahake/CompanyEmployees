@@ -1,0 +1,61 @@
+﻿@model Shared.DataTransferObjects.SalaryForUpdateDto
+
+@{
+    ViewData["Title"] = "Edit Salary";
+    var employeeId = ViewBag.EmployeeId as Guid? ?? Guid.Empty;
+    var currentId = ViewBag.SalaryId as Guid? ?? Guid.Empty;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="mb-0">Edit Salary</h2>
+        <div class="text-muted small">Update salary details</div>
+    </div>
+    <div>
+        <a asp-controller="Salary" asp-action="Index" asp-route-employeeId="@employeeId" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+</div>
+
+<form asp-controller="Salary" asp-action="Edit" asp-route-employeeId="@employeeId" asp-route-id="@currentId" method="post" class="row g-3 card-surface">
+    @Html.AntiForgeryToken()
+
+    <div class="col-md-4">
+        <label asp-for="BaseAmount" class="form-label">Base Amount</label>
+        <input asp-for="BaseAmount" class="form-control" />
+        <span asp-validation-for="BaseAmount" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Allowances" class="form-label">Allowances</label>
+        <input asp-for="Allowances" class="form-control" />
+        <span asp-validation-for="Allowances" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-4">
+        <label asp-for="Currency" class="form-label">Currency</label>
+        <input asp-for="Currency" class="form-control" />
+        <span asp-validation-for="Currency" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="EffectiveFrom" class="form-label">Effective From</label>
+        <input asp-for="EffectiveFrom" type="date" class="form-control" />
+        <span asp-validation-for="EffectiveFrom" class="text-danger small"></span>
+    </div>
+
+    <div class="col-md-6">
+        <label asp-for="EffectiveTo" class="form-label">Effective To (optional)</label>
+        <input asp-for="EffectiveTo" type="date" class="form-control" />
+        <span asp-validation-for="EffectiveTo" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 text-end">
+        <button type="submit" class="btn btn-primary">Save changes</button>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

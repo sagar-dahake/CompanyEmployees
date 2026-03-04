@@ -182,40 +182,65 @@ body {
 /* LEFT BRAND PANEL */
 .login-brand {
     flex: 1;
-    background: linear-gradient(135deg,#0f172a,#1e293b);
+    background: radial-gradient(circle at 20% 20%, rgba(37,99,235,.35), transparent 40%), radial-gradient(circle at 80% 70%, rgba(59,130,246,.25), transparent 40%), linear-gradient(135deg,#020617,#0f172a,#1e293b);
     color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 80px;
+    position: relative;
+    overflow: hidden;
+}
+    .login-brand::before {
+        content: "";
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(59,130,246,.25), transparent 70%);
+        top: -120px;
+        left: -120px;
+        animation: floatGlow 12s ease-in-out infinite alternate;
+    }
+
+@keyframes floatGlow {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(40px);
+    }
 }
 
-    .login-brand h1 {
-        font-weight: 700;
-        font-size: 42px;
-    }
-
-    .login-brand p {
-        opacity: .7;
-        margin-top: 10px;
-    }
 
 /* RIGHT PANEL */
 .login-panel {
+    position: relative;
     flex: 1;
-    display: flex;
     align-items: center;
+    z-index: 2;
+    width: 100%;
+    display: flex;
     justify-content: center;
 }
 
 /* GLASS CARD */
 .login-card {
-    width: 380px;
-    background: white;
-    border-radius: 12px;
-    padding: 40px;
-    box-shadow: 0 20px 40px rgba(0,0,0,.08);
+    width: 420px;
+    background: rgba(15,23,42,.75);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 45px;
+    box-shadow: 0 40px 80px rgba(0,0,0,.6);
+    color: #e5e7eb;
+    border: 1px solid rgba(255,255,255,.08);
 }
+
+
+    .login-card:hover {
+        transform: translateY(-4px);
+    }
+
 
 .login-title {
     font-weight: 600;
@@ -242,13 +267,33 @@ body {
 
 /* ===== ENTERPRISE PRO LAYOUT ===== */
 
-.content-wrapper {
-    background: #ffffff;
-    padding: 28px 32px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-    animation: fadeInPage .25s ease-in-out;
+.login-wrapper {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
+    .login-wrapper::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url('/Images/1715120.jpg') center/cover no-repeat;
+        filter: brightness(.35) contrast(1.1) saturate(1.1);
+        z-index: 0;
+    }
+.login-wrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(37,99,235,.25), transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(59,130,246,.18), transparent 50%),
+        linear-gradient(rgba(2,6,23,.85), rgba(2,6,23,.95));
+    z-index: 1;
+}
+
 
 @keyframes fadeInPage {
     from {
@@ -340,4 +385,157 @@ body {
         background: #dc2626;
         color: white;
     }
+.table-enterprise td:last-child {
+    width: 180px;
+}
+/* ===== ENTERPRISE TOOLBAR ===== */
+
+.input-enterprise {
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 14px;
+}
+
+.card-enterprise .btn-light {
+    background: #f9fafb;
+    border-radius: 8px;
+}
+
+.login-illustration {
+    width: 70%;
+    margin-top: 40px;
+    opacity: .25;
+    filter: blur(0.2px);
+}
+
+.login-brand h1 {
+    letter-spacing: -.5px;
+    text-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+.login-brand::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(2,6,23,.55); /* dark overlay */
+}
+.login-illustration {
+    position: absolute;
+    width: 120%;
+    left: -10%;
+    top: -10%;
+    opacity: .22;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.brand-title {
+    font-size: 34px;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.brand-sub {
+    opacity: .65;
+    font-size: 14px;
+}
+/* ===== BATMAN DARK LOGIN ===== */
+
+.login-dark-wrapper {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* FULL BACKGROUND IMAGE */
+.login-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(.35) contrast(1.1);
+}
+
+/* DARK OVERLAY */
+.login-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(37,99,235,.15), transparent 50%), rgba(2,6,23,.75);
+    box-shadow: inset 0 0 200px rgba(0,0,0,.6);
+}
+
+/* FLOATING BRAND */
+.login-brand-floating {
+    position: absolute;
+    top: 80px;
+    left: 80px;
+    color: white;
+    z-index: 2;
+}
+
+    .login-brand-floating h1 {
+        font-size: 42px;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .login-brand-floating p {
+        opacity: .75;
+        margin-top: 8px;
+    }
+
+/* CENTER LOGIN */
+/* CENTER LOGIN */
+.login-dark-wrapper .login-panel {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* GLASS CARD */
+.login-dark-wrapper .login-card {
+    width: 380px;
+    background: rgba(255,255,255,.08);
+    backdrop-filter: blur(18px);
+    border-radius: 14px;
+    padding: 40px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.45);
+    color: white;
+}
+
+.brand-title {
+    font-size: 32px;
+    letter-spacing: .5px;
+}
+
+.login-card input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 12px rgba(59,130,246,.35);
+    background: rgba(255,255,255,.12);
+    color: white;
+}
+
+.login-bg {
+    animation: subtleDrift 30s linear infinite alternate;
+}
+
+@keyframes subtleDrift {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+
+
+
+
+
 

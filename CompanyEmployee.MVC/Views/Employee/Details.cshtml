@@ -1,0 +1,196 @@
+﻿@model CompanyEmployee.MVC.Models.Dtos.Employee.EmployeeDto
+
+@{
+    ViewData["Title"] = $"{Model.Name} - Details";
+    var companyId = ViewBag.CompanyId as Guid? ?? Guid.Empty;
+    var employeeId = Model?.Id ?? Guid.Empty;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <div class="page-header mb-1">@Model.Name</div>
+        <div class="text-muted">
+            <i class="bi bi-briefcase me-1"></i>@Model.Position
+            @if (!string.IsNullOrEmpty(Model.CompanyName))
+            {
+                <span class="mx-2">•</span>
+                <i class="bi bi-building me-1"></i>
+
+                @Model.CompanyName
+            }
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-controller="Employee" asp-action="Index" asp-route-companyId="@companyId" asp-route-companyName="@Model.CompanyName" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+        <a asp-action="Edit" asp-route-companyId="@companyId" asp-route-id="@employeeId" class="btn btn-enterprise">
+            <i class="bi bi-pencil me-1"></i> Edit
+        </a>
+    </div>
+</div>
+
+<!-- Employee Info Card -->
+<div class="row mb-3">
+    <div class="col-lg-4 mb-3">
+        <div class="card-surface" style="text-align:center; padding:2rem;">
+            <div style="width:100px; height:100px; margin:0 auto 1rem; border-radius:50%; background:linear-gradient(135deg, var(--accent), #5146e8); display:grid; place-items:center; font-size:2.5rem; font-weight:700;">
+                @string.Concat(Model.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0])).ToUpper()
+            </div>
+            <h4 class="mb-1">@Model.Name</h4>
+            <p class="text-muted mb-3">@Model.Position</p>
+            <div class="d-grid gap-2">
+                <a asp-controller="Salary" asp-action="Create" asp-route-employeeId="@employeeId" class="btn btn-enterprise">
+                    <i class="bi bi-plus-lg me-1"></i> Add Salary
+                </a>
+                <a asp-controller="Payslip" asp-action="Create" asp-route-employeeId="@employeeId" class="btn btn-secondary">
+                    <i class="bi bi-file-earmark-plus me-1"></i> Generate Payslip
+                </a>
+                <a asp-controller="Leave" asp-action="Create" asp-route-employeeId="@employeeId" class="btn btn-secondary">
+                    <i class="bi bi-calendar-plus me-1"></i> Request Leave
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card-surface mb-3">
+            <h5 class="mb-3">
+                <i class="bi bi-person-badge me-2"></i>Employee Information
+            </h5>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted small">Full Name</label>
+                    <div class="fw-semibold">@Model.Name</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted small">Age</label>
+                    <div class="fw-semibold">@Model.Age years</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted small">Position</label>
+                    <div><span class="badge-enterprise">@Model.Position</span></div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted small">Company</label>
+                    <div class="fw-semibold">@(Model.CompanyName ?? "N/A")</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <a asp-controller="Salary" asp-action="Index" asp-route-employeeId="@employeeId" class="card-surface d-block text-decoration-none" style="transition:all .2s;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small">Salary Records</div>
+                            <h3 class="mb-0">-</h3>
+                        </div>
+                        <i class="bi bi-cash-stack" style="font-size:2rem; opacity:.3;"></i>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a asp-controller="Payslip" asp-action="Index" asp-route-employeeId="@employeeId" class="card-surface d-block text-decoration-none" style="transition:all .2s;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small">Payslips</div>
+                            <h3 class="mb-0">-</h3>
+                        </div>
+                        <i class="bi bi-file-earmark-text" style="font-size:2rem; opacity:.3;"></i>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a asp-controller="Leave" asp-action="Index" asp-route-employeeId="@employeeId" class="card-surface d-block text-decoration-none" style="transition:all .2s;">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div class="text-muted small">Leave Records</div>
+                            <h3 class="mb-0">-</h3>
+                        </div>
+                        <i class="bi bi-calendar-check" style="font-size:2rem; opacity:.3;"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabs for Records -->
+<div class="card-surface">
+    <ul class="nav nav-tabs border-bottom-0 mb-3" id="employeeTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="salary-tab" data-bs-toggle="tab" data-bs-target="#salary" type="button" role="tab">
+                <i class="bi bi-cash-stack me-1"></i> Salaries
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="payslip-tab" data-bs-toggle="tab" data-bs-target="#payslip" type="button" role="tab">
+                <i class="bi bi-file-earmark-text me-1"></i> Payslips
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="leave-tab" data-bs-toggle="tab" data-bs-target="#leave" type="button" role="tab">
+                <i class="bi bi-calendar-check me-1"></i> Leave
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="employeeTabsContent">
+        <div class="tab-pane fade show active" id="salary" role="tabpanel">
+            <div class="text-center py-5">
+                <i class="bi bi-cash-stack" style="font-size:3rem; opacity:.2;"></i>
+                <p class="text-muted mt-3">Salary records will appear here</p>
+                <a asp-controller="Salary" asp-action="Index" asp-route-employeeId="@employeeId" class="btn btn-enterprise">
+                    View All Salaries
+                </a>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="payslip" role="tabpanel">
+            <div class="text-center py-5">
+                <i class="bi bi-file-earmark-text" style="font-size:3rem; opacity:.2;"></i>
+                <p class="text-muted mt-3">Payslip records will appear here</p>
+                <a asp-controller="Payslip" asp-action="Index" asp-route-employeeId="@employeeId" class="btn btn-enterprise">
+                    View All Payslips
+                </a>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="leave" role="tabpanel">
+            <div class="text-center py-5">
+                <i class="bi bi-calendar-check" style="font-size:3rem; opacity:.2;"></i>
+                <p class="text-muted mt-3">Leave records will appear here</p>
+                <a asp-controller="Leave" asp-action="Index" asp-route-employeeId="@employeeId" class="btn btn-enterprise">
+                    View All Leaves
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <style>
+        .nav-tabs .nav-link {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            padding: .75rem 1.25rem;
+            border-radius: 8px 8px 0 0;
+        }
+
+            .nav-tabs .nav-link.active {
+                background: rgba(124,92,255,0.1);
+                color: var(--accent);
+                border-bottom: 2px solid var(--accent);
+            }
+
+            .nav-tabs .nav-link:hover {
+                color: #fff;
+            }
+
+        .card-surface a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+    </style>
+}

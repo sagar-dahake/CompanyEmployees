@@ -1,20 +1,75 @@
 ﻿@model List<CompanyEmployee.MVC.Models.Dtos.Employee.EmployeeDto>
 
-<div class="breadcrumb-custom">
-    Companies / @ViewBag.CompanyName
+@{
+    ViewData["Title"] = $"Employees - {ViewBag.CompanyName}";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <div class="page-header mb-1">Employees</div>
+        <div class="text-muted">
+            <i class="bi bi-building me-1"></i>@ViewBag.CompanyName
+        </div>
+    </div>
+    <a asp-controller="Company" asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left me-1"></i> Back to Companies
+    </a>
 </div>
 
-<div class="page-header">
-    Employees — @ViewBag.CompanyName
+<div class="card-enterprise mb-3">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+        <div>
+            <a asp-action="Create"
+               asp-route-companyId="@ViewBag.CompanyId"
+               class="btn btn-enterprise">
+                <i class="bi bi-plus-lg me-1"></i> Add Employee
+            </a>
+        </div>
+
+        <form method="get" asp-action="Index" class="d-flex align-items-center gap-2">
+            <input type="hidden" name="companyId" value="@ViewBag.CompanyId" />
+            <input type="hidden" name="companyName" value="@ViewBag.CompanyName" />
+
+            <input type="text"
+                   name="search"
+                   class="form-control input-enterprise"
+                   placeholder="Search employee..."
+                   style="width:220px;" />
+
+            <select name="positionFilter" class="form-select" style="width:160px;">
+                <option value="">All Positions</option>
+                <option>Software Developer</option>
+                <option>Backend Developer</option>
+                <option>Frontend Developer</option>
+                <option>Administrator</option>
+                <option>System Admin</option>
+                <option>HR Executive</option>
+                <option>Office Manager</option>
+            </select>
+
+            <select name="sort" class="form-select" style="width:140px;">
+                <option value="">Sort By</option>
+                <option value="age_asc">Age ↑</option>
+                <option value="age_desc">Age ↓</option>
+            </select>
+
+            <button class="btn btn-enterprise">
+                <i class="bi bi-funnel"></i>
+            </button>
+        </form>
+    </div>
 </div>
 
 <div class="card-enterprise">
-
     @if (Model == null || !Model.Any())
     {
         <div class="empty-state">
-            <h5>No Employees Found</h5>
+            <i class="bi bi-person-x" style="font-size:3rem; color:var(--muted);"></i>
+            <h5 class="mt-3">No Employees Found</h5>
             <p>This company currently has no registered employees.</p>
+            <a asp-action="Create" asp-route-companyId="@ViewBag.CompanyId" class="btn btn-enterprise mt-2">
+                <i class="bi bi-plus-lg me-1"></i> Add First Employee
+            </a>
         </div>
     }
     else
@@ -22,27 +77,67 @@
         <table class="table table-enterprise">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Age</th>
-                    <th>Position</th>
+                    <th>Employee</th>
+                    <th style="width:15%">Age</th>
+                    <th style="width:25%">Position</th>
+                    <th class="text-end" style="width:20%">Actions</th>
                 </tr>
             </thead>
 
             <tbody>
                 @foreach (var emp in Model)
                 {
-                    <tr>
-                        <td class="fw-semibold">@emp.Name</td>
+                    <tr class="row-hover-enterprise">
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div style="width:40px; height:40px; border-radius:50%; background:linear-gradient(135deg, rgba(124,92,255,0.3), rgba(81,70,232,0.3)); display:grid; place-items:center; font-weight:700; font-size:.85rem;">
+                                    @string.Concat(emp.Name.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0])).ToUpper()
+                                </div>
+                                <div>
+                                    <div class="fw-semibold">@emp.Name</div>
+                                </div>
+                            </div>
+                        </td>
                         <td>@emp.Age</td>
                         <td>
                             <span class="badge-enterprise">
                                 @emp.Position
                             </span>
                         </td>
+
+                        <td class="text-end">
+                            <div class="d-flex justify-content-end gap-2">
+                                <a asp-action="Details"
+                                   asp-route-companyId="@ViewBag.CompanyId"
+                                   asp-route-id="@emp.Id"
+                                   class="btn btn-sm btn-primary"
+                                   title="View Details">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+
+                                <a asp-action="Edit"
+                                   asp-route-companyId="@ViewBag.CompanyId"
+                                   asp-route-id="@emp.Id"
+                                   class="btn btn-sm btn-secondary"
+                                   title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+
+                                <form asp-action="Delete"
+                                      asp-route-companyId="@ViewBag.CompanyId"
+                                      asp-route-id="@emp.Id"
+                                      method="post"
+                                      class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete @emp.Name?');">
+                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>
         </table>
     }
-
 </div>

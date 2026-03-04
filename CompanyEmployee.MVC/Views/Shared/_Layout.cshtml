@@ -1,62 +1,469 @@
-﻿<!DOCTYPE html>
+﻿@using System.Linq
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    var isAuthLogin = string.Equals(controller, "Auth", StringComparison.OrdinalIgnoreCase)
+                      && string.Equals(action, "Login", StringComparison.OrdinalIgnoreCase);
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CompanyEmployee.MVC</title>
-    <script type="importmap"></script>
-@*     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
- *@    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - Gratafy</title>
+
     <link rel="stylesheet" href="~/CompanyEmployee.MVC.styles.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
+    <style>
+        :root {
+            --bg-900: #0b0f1a;
+            --bg-800: #141428;
+            --bg-700: #1a1e32;
+            --muted: rgba(230,238,248,0.7);
+            --accent: #7c5cff;
+            --accent-hover: #6b4cef;
+        }
 
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+            color: #e6eef8;
+            background: linear-gradient(180deg, var(--bg-900), var(--bg-800));
+        }
+
+        /* App shell */
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            padding: 1.5rem 1.25rem;
+            background: rgba(255,255,255,0.02);
+            border-right: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            flex-direction: column;
+            transition: width .22s ease, padding .22s ease;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--accent), #5146e8);
+        }
+
+        nav.menu {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+            nav.menu a {
+                text-decoration: none;
+                padding: .6rem .8rem;
+                border-radius: 10px;
+                color: var(--muted);
+                display: flex;
+                align-items: center;
+                gap: .6rem;
+                transition: all .18s ease;
+            }
+
+                nav.menu a.active, nav.menu a:hover {
+                    background: rgba(255,255,255,0.03);
+                    color: #fff;
+                }
+
+        /* Login page specific */
+        body.auth-page {
+            overflow: hidden;
+        }
+
+            body.auth-page .sidebar {
+                width: 72px;
+                padding: 1rem .5rem;
+            }
+
+            body.auth-page .brand > div:not(.logo),
+            body.auth-page .menu a span {
+                display: none;
+            }
+
+        /* Main content */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .auth-wrapper.full-auth {
+            width: 100%;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+            display: block;
+        }
+
+        /* Topbar */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: rgba(255,255,255,0.01);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+            .topbar .left {
+                display: flex;
+                align-items: center;
+                gap: .75rem;
+            }
+
+            .topbar .user .chip {
+                display: flex;
+                align-items: center;
+                gap: .5rem;
+                padding: .4rem .75rem;
+                background: rgba(255,255,255,0.02);
+                border-radius: 24px;
+                border: 1px solid rgba(255,255,255,0.04);
+            }
+
+            .topbar .user .avatar {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--accent), #5146e8);
+                display: grid;
+                place-items: center;
+                font-size: .7rem;
+                font-weight: 700;
+            }
+
+        /* Content area */
+        .content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .breadcrumb {
+            font-size: .85rem;
+            color: var(--muted);
+            margin-bottom: .75rem;
+        }
+
+        .page-header {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+
+        /* Card styles */
+        .card-surface {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-enterprise {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        /* Table styles */
+        .table-enterprise {
+            margin-bottom: 0;
+            color: #e6eef8;
+        }
+
+            .table-enterprise thead {
+                background: rgba(255,255,255,0.03);
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+            }
+
+                .table-enterprise thead th {
+                    padding: .85rem 1rem;
+                    font-weight: 600;
+                    font-size: .85rem;
+                    text-transform: uppercase;
+                    letter-spacing: .5px;
+                    color: var(--muted);
+                    border: none;
+                }
+
+            .table-enterprise tbody td {
+                padding: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.04);
+                vertical-align: middle;
+            }
+
+            .table-enterprise tbody tr:hover {
+                background: rgba(255,255,255,0.01);
+            }
+
+        .row-hover-enterprise {
+            transition: all .15s ease;
+        }
+
+            .row-hover-enterprise:hover {
+                background: rgba(255,255,255,0.02) !important;
+            }
+
+        /* Buttons */
+        .btn-enterprise {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: .5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: .875rem;
+            transition: all .2s ease;
+        }
+
+            .btn-enterprise:hover {
+                background: var(--accent-hover);
+                color: #fff;
+                transform: translateY(-1px);
+            }
+
+        .badge-enterprise {
+            background: rgba(124,92,255,0.15);
+            color: #a78bff;
+            padding: .35rem .75rem;
+            border-radius: 6px;
+            font-size: .8rem;
+            font-weight: 600;
+        }
+
+        /* Form controls */
+        .form-control, .form-select {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #e6eef8;
+            border-radius: 8px;
+        }
+
+            .form-control:focus, .form-select:focus {
+                background: rgba(255,255,255,0.03);
+                border-color: var(--accent);
+                color: #fff;
+                box-shadow: 0 0 0 .2rem rgba(124,92,255,0.15);
+            }
+
+            .form-control::placeholder {
+                color: rgba(230,238,248,0.4);
+            }
+
+        .input-enterprise {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #e6eef8;
+            padding: .5rem .75rem;
+            border-radius: 8px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--muted);
+        }
+
+            .empty-state h5 {
+                color: #fff;
+                margin-bottom: .5rem;
+            }
+
+        /* Breadcrumb custom */
+        .breadcrumb-custom {
+            font-size: .85rem;
+            color: var(--muted);
+            margin-bottom: .75rem;
+        }
+
+        /* Bootstrap overrides */
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+            .btn-primary:hover {
+                background: var(--accent-hover);
+                border-color: var(--accent-hover);
+            }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.08);
+            color: #e6eef8;
+        }
+
+            .btn-secondary:hover {
+                background: rgba(255,255,255,0.12);
+                border-color: rgba(255,255,255,0.12);
+                color: #fff;
+            }
+
+        .btn-outline-light {
+            border-color: rgba(255,255,255,0.2);
+            color: var(--muted);
+        }
+
+            .btn-outline-light:hover {
+                background: rgba(255,255,255,0.05);
+                border-color: rgba(255,255,255,0.3);
+                color: #fff;
+            }
+
+        .btn-danger {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn-outline-danger {
+            border-color: rgba(220,53,69,0.5);
+            color: #dc3545;
+        }
+
+            .btn-outline-danger:hover {
+                background: rgba(220,53,69,0.1);
+                border-color: #dc3545;
+            }
+
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                z-index: 1000;
+                background: var(--bg-900);
+            }
+
+                .sidebar.show {
+                    left: 0;
+                }
+
+            .main {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
-<body>
+<body class="@(isAuthLogin ? "auth-page" : "")">
+    @{
+        var userName = HttpContextAccessor.HttpContext?.Session.GetString("UserName") ?? "Guest";
+        var initials = string.Concat(userName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => s[0])).ToUpper();
+    }
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h5 class="px-3">Company Employees</h5>
-
-        <a asp-controller="Company" asp-action="Index"
-           class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Company" ? "active" : "")">
-            Companies
-        </a>
-    </div>
-
-    <div class="main-content">
-        <div class="topbar-enterprise">
-
-            <div class="topbar-left">
-                <i class="bi bi-grid"></i>
-                <span class="fw-semibold">Dashboard</span>
+    <div class="app-shell">
+        <aside class="sidebar" role="navigation" aria-label="Main menu">
+            <div class="brand">
+                <div class="logo"><i class="bi bi-ghost"></i></div>
+                <div>
+                    <h1 style="font-size:1rem; margin:0">Gratafy</h1>
+                    <p style="margin:0; font-size:.7rem; color:var(--muted)">Enterprise Console</p>
+                </div>
             </div>
 
-            <div class="topbar-right">
-
-                <div class="user-chip">
-                    <i class="bi bi-person-circle"></i>
-                    <span>@Context.Session.GetString("UserName")</span>
-                </div>
-
-                <a asp-controller="Auth"
-                   asp-action="Logout"
-                   class="logout-btn">
-                    <i class="bi bi-box-arrow-right"></i>
-                    Logout
+            <nav class="menu" id="mainMenu" aria-label="Primary">
+                <a asp-controller="Company" asp-action="Index" class="@(controller == "Company" ? "active" : "")">
+                    <i class="bi bi-briefcase"></i><span>Companies</span>
                 </a>
 
-            </div>
-        </div>
+                @if (string.Equals(controller, "Auth", StringComparison.OrdinalIgnoreCase) && string.Equals(action, "Login", StringComparison.OrdinalIgnoreCase))
+                {
+                    <a asp-controller="Auth" asp-action="Login" class="@(controller == "Auth" ? "active" : "")">
+                        <i class="bi bi-box-arrow-in-right"></i><span>Sign in</span>
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Auth" asp-action="Logout">
+                        <i class="bi bi-box-arrow-right"></i><span>Logout</span>
+                    </a>
+                }
+            </nav>
+        </aside>
 
-        <div class="content-wrapper">
-            @RenderBody()
-        </div>
+        <main class="main" role="main">
+            @if (isAuthLogin)
+            {
+                <div class="auth-wrapper full-auth" role="main" aria-live="polite">
+                    @RenderBody()
+                </div>
+            }
+            else
+            {
+                <header class="topbar">
+                    <div class="left">
+                        <button id="menuToggle" class="btn btn-sm btn-outline-light d-lg-none" aria-label="Toggle menu">
+                            <i class="bi bi-list"></i>
+                        </button>
+                        <i class="bi bi-grid"></i>
+                        <div style="margin-left:.25rem;">@ViewData["Title"]</div>
+                    </div>
+
+                    <div class="user">
+                        <div class="chip" title="@userName">
+                            <div class="avatar" aria-hidden="true">@initials</div>
+                            <div style="min-width:140px; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                                @userName
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="content">
+                    <div class="breadcrumb">
+                        <span class="me-2">@controller</span> › <span class="text-white-50">@action</span>
+                    </div>
+
+                    <div class="card-surface">
+                        @RenderBody()
+                    </div>
+                </section>
+            }
+        </main>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script>
+        (function () {
+            const toggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar');
+            if (!toggle || !sidebar) return;
+            toggle.addEventListener('click', () => {
+                sidebar.classList.toggle('show');
+            });
+        })();
+    </script>
 
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
-
-
 </html>

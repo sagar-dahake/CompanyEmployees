@@ -1,16 +1,20 @@
-﻿namespace CompanyEmployee.MVC.Models.Dtos.Employee
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CompanyEmployee.MVC.Models.Dtos.Employee
 {
     public class EmployeeUpdateDto
     {
-        public Guid Id { get; set; }
 
-        public string FirstName { get; set; }
+        [Required(ErrorMessage = "Employee name is a required field.")]
+        [MaxLength(30, ErrorMessage = "Maximum length for the Name is 30 characters.")]
+        public string? Name { get; init; }
 
-        public string LastName { get; set; }
+        [Range(18, int.MaxValue, ErrorMessage = "Age is required and it can't be lower than 18")]
+        public int Age { get; init; }
 
-        public string Email { get; set; }
-
-        public string Department { get; set; }
+        [Required(ErrorMessage = "Position is a required field.")]
+        [MaxLength(20, ErrorMessage = "Maximum length for the Position is 20 characters.")]
+        public string? Position { get; init; }
     }
 
 }
