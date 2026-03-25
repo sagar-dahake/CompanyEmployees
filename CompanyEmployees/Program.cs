@@ -7,10 +7,14 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using NLog;
+using NLog.Web;
 using CompanyEmployees.ActionFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/Nlog.config"));
+
+// Enable NLog.Web so ${aspnet-request-url}, ${aspnet-request-method}, etc. work
+builder.Host.UseNLog();
 
 // Add services to the container.
 

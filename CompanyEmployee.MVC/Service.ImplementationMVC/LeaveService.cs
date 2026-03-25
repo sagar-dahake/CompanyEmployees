@@ -28,5 +28,9 @@ namespace CompanyEmployee.MVC.Service.ImplementationMVC
 
         public async Task Delete(Guid employeeId, Guid id) =>
             await _apiClient.Delete(employeeId, id);
+
+        // Phase 1 SP
+        public async Task<LeaveSummaryDto> GetSummary(Guid employeeId, int year) =>
+            await _apiClient.GetSummary(employeeId, year);
     }
 }

@@ -42,5 +42,17 @@ namespace CompanyEmployee.MVC.Controllers
             await _service.Delete(employeeId, id);
             return RedirectToAction("Index", new { employeeId });
         }
+
+        // Phase 1 SP — Leave Summary page
+        [HttpGet]
+        public async Task<IActionResult> Summary(Guid employeeId, int? year)
+        {
+            var targetYear = year ?? DateTime.UtcNow.Year;
+            var summary = await _service.GetSummary(employeeId, targetYear);
+
+            ViewBag.EmployeeId = employeeId;
+            ViewBag.Year = targetYear;
+            return View(summary);
+        }
     }
 }

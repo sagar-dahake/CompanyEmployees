@@ -13,5 +13,8 @@ namespace CompanyEmployee.MVC.ServiceContractsMVC
         Task<LeaveRecordDto> Create(Guid employeeId, LeaveRecordForCreationDto dto);
         Task Update(Guid employeeId, Guid id, LeaveRecordForUpdateDto dto);
         Task Delete(Guid employeeId, Guid id);
+
+        // Phase 1 SP
+        Task<LeaveSummaryDto> GetSummary(Guid employeeId, int year);
     }
 }

@@ -17,6 +17,9 @@ namespace Repository
         private readonly Lazy<IPayslipRepository> _payslipRepository;
         private readonly Lazy<ILeaveRecordRepository> _leaveRepository;
 
+        // stored procedure repository
+        private readonly Lazy<IStoredProcedureRepository> _storedProcedureRepository;
+
         public RepositoryManager(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
@@ -26,6 +29,8 @@ namespace Repository
             _salaryRepository = new Lazy<ISalaryRepository>(() => new SalaryRepository(repositoryContext));
             _payslipRepository = new Lazy<IPayslipRepository>(() => new PayslipRepository(repositoryContext));
             _leaveRepository = new Lazy<ILeaveRecordRepository>(() => new LeaveRecordRepository(repositoryContext));
+
+            _storedProcedureRepository = new Lazy<IStoredProcedureRepository>(() => new StoredProcedureRepository(repositoryContext));
         }
 
         public ICompanyRepository Company => _companyRepository.Value;
@@ -36,6 +41,9 @@ namespace Repository
         public IPayslipRepository Payslip => _payslipRepository.Value;
         public ILeaveRecordRepository Leave => _leaveRepository.Value;
 
-        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
+        // stored procedure repository
+        public IStoredProcedureRepository StoredProcedure => _storedProcedureRepository.Value;
+
+        public async Task  SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 }

@@ -9,7 +9,7 @@ namespace CompanyEmployee.MVC.API_Clients.Contracts
         Task<EmployeeDto> Get(Guid companyId, Guid id);
 
 
-        Task Create(Guid companyId, EmployeeCreateDto dto);
+        Task  Create(Guid companyId, EmployeeCreateDto dto);
         Task Update(Guid companyId, Guid id, EmployeeUpdateDto dto);
         Task Delete(Guid companyId, Guid id);
 

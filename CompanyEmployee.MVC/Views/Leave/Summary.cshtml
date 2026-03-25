@@ -1,0 +1,90 @@
+@model Shared.DataTransferObjects.LeaveSummaryDto
+
+@{
+    ViewData["Title"] = "Leave Summary";
+    var employeeId = ViewBag.EmployeeId as Guid? ?? Guid.Empty;
+    var currentYear = (int)ViewBag.Year;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <div class="page-header mb-1">Leave Summary — @currentYear</div>
+        <div class="text-muted">
+            <i class="bi bi-bar-chart me-1"></i> Powered by Stored Procedure
+        </div>
+    </div>
+    <div class="d-flex gap-2">
+        <a asp-action="Index" asp-route-employeeId="@employeeId" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Back to Leaves
+        </a>
+        <a asp-controller="Employee" asp-action="Details" asp-route-id="@employeeId" class="btn btn-secondary">
+            <i class="bi bi-person me-1"></i> Employee
+        </a>
+    </div>
+</div>
+
+<!-- Year Navigation -->
+<div class="d-flex justify-content-center gap-3 mb-4">
+    <a asp-action="Summary" asp-route-employeeId="@employeeId" asp-route-year="@(currentYear - 1)"
+       class="btn btn-sm btn-secondary">
+        <i class="bi bi-chevron-left"></i> @(currentYear - 1)
+    </a>
+    <span class="btn btn-sm btn-enterprise disabled">@currentYear</span>
+    <a asp-action="Summary" asp-route-employeeId="@employeeId" asp-route-year="@(currentYear + 1)"
+       class="btn btn-sm btn-secondary">
+        @(currentYear + 1) <i class="bi bi-chevron-right"></i>
+    </a>
+</div>
+
+<!-- Summary Cards -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card-surface text-center" style="border-left: 4px solid #22c55e;">
+            <div class="text-muted small mb-1">Approved Leaves</div>
+            <h2 class="mb-0" style="color: #22c55e;">@Model.ApprovedLeaves</h2>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card-surface text-center" style="border-left: 4px solid #f59e0b;">
+            <div class="text-muted small mb-1">Pending Leaves</div>
+            <h2 class="mb-0" style="color: #f59e0b;">@Model.PendingLeaves</h2>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card-surface text-center" style="border-left: 4px solid #ef4444;">
+            <div class="text-muted small mb-1">Rejected Leaves</div>
+            <h2 class="mb-0" style="color: #ef4444;">@Model.RejectedLeaves</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Leave Type Breakdown -->
+<div class="card-enterprise">
+    <h5 class="mb-3"><i class="bi bi-pie-chart me-2"></i>Leave Type Breakdown (Approved)</h5>
+    <table class="table table-enterprise mb-0">
+        <thead>
+            <tr>
+                <th>Leave Type</th>
+                <th class="text-end">Days Taken</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="badge bg-success">Paid</span></td>
+                <td class="text-end fw-semibold">@Model.TotalPaidLeaves days</td>
+            </tr>
+            <tr>
+                <td><span class="badge bg-danger">Unpaid</span></td>
+                <td class="text-end fw-semibold">@Model.TotalUnpaidLeaves days</td>
+            </tr>
+            <tr>
+                <td><span class="badge bg-warning text-dark">Sick</span></td>
+                <td class="text-end fw-semibold">@Model.TotalSickLeaves days</td>
+            </tr>
+            <tr class="fw-bold" style="border-top: 2px solid var(--border);">
+                <td>Total Approved Days</td>
+                <td class="text-end">@(Model.TotalPaidLeaves + Model.TotalUnpaidLeaves + Model.TotalSickLeaves) days</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

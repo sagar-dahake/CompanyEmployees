@@ -92,5 +92,29 @@ namespace Service
             _repositoryManager.Leave.DeleteLeave(leaveEntity);
             await _repositoryManager.SaveAsync();
         }
+
+        // Phase 1 SP — Leave Summary via stored procedure
+        public async Task<LeaveSummaryDto> GetLeaveSummaryAsync(Guid employeeId, int year)
+        {
+            var employee = await _repositoryManager.Employee.GetEmployeeByIdAsync(employeeId, false);
+            if (employee is null)
+                throw new EmployeeNotFoundException(employeeId);
+
+            _logger.LogInfo($"Fetching leave summary for employee {employeeId}, year {year} via SP.");
+
+            var result = await _repositoryManager.StoredProcedure.GetLeaveSummaryAsync(employeeId, year);
+
+            return new LeaveSummaryDto
+            {
+                EmployeeId = result.EmployeeId,
+                Year = result.Year,
+                TotalPaidLeaves = result.TotalPaidLeaves,
+                TotalUnpaidLeaves = result.TotalUnpaidLeaves,
+                TotalSickLeaves = result.TotalSickLeaves,
+                PendingLeaves = result.PendingLeaves,
+                ApprovedLeaves = result.ApprovedLeaves,
+                RejectedLeaves = result.RejectedLeaves
+            };
+        }
     }
 }

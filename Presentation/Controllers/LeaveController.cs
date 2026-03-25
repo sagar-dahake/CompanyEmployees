@@ -51,5 +51,13 @@ namespace Presentation.Controllers
             await _services.LeaveService.DeleteLeaveForEmployeeAsync(employeeId, id, trackChanges: false);
             return NoContent();
         }
+
+        // Phase 1 SP — Leave Summary endpoint
+        [HttpGet("employee/{employeeId:guid}/summary/{year:int}")]
+        public async Task<IActionResult> GetSummary(Guid employeeId, int year)
+        {
+            var summary = await _services.LeaveService.GetLeaveSummaryAsync(employeeId, year);
+            return Ok(summary);
+        }
     }
 }

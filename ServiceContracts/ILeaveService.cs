@@ -6,7 +6,6 @@ using Shared.DataTransferObjects;
 
 
 
-
 namespace ServiceContracts
 {
     public interface ILeaveService
@@ -16,5 +15,8 @@ namespace ServiceContracts
         Task<LeaveRecordDto> CreateLeaveForEmployeeAsync(Guid employeeId, LeaveRecordForCreationDto leaveForCreation);
         Task UpdateLeaveForEmployeeAsync(Guid employeeId, Guid id, LeaveRecordForUpdateDto leaveForUpdate, bool trackChanges);
         Task DeleteLeaveForEmployeeAsync(Guid employeeId, Guid id, bool trackChanges);
+
+        // Phase 1 SP — Leave Summary
+        Task<LeaveSummaryDto> GetLeaveSummaryAsync(Guid employeeId, int year);
     }
 }

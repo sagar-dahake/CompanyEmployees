@@ -19,13 +19,20 @@ namespace CompanyEmployee.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var result = await _service.Login(dto);
+            try
+            {
+                var result = await _service.Login(dto);
 
-            HttpContext.Session.SetString("JWToken", result.Token);
-            HttpContext.Session.SetString("UserName", dto.UserName);
+                HttpContext.Session.SetString("JWToken", result.Token);
+                HttpContext.Session.SetString("UserName", dto.UserName);
 
-
-            return RedirectToAction("Index", "Company");
+                return RedirectToAction("Index", "Company");
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid username or password.");
+                return View(dto);
+            }
         }
 
         public IActionResult Logout()
@@ -35,7 +42,5 @@ namespace CompanyEmployee.MVC.Controllers
 
             return RedirectToAction("Login", "Auth");
         }
-
     }
-
 }

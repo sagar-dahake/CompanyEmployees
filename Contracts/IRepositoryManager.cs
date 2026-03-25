@@ -15,6 +15,9 @@ namespace Contracts
         IPayslipRepository Payslip { get; }
         ILeaveRecordRepository Leave { get; }
 
+        // stored procedure repository
+        IStoredProcedureRepository StoredProcedure { get; }
+
         Task SaveAsync();
     }
 }

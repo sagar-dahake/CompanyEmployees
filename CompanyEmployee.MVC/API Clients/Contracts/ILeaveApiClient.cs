@@ -1,6 +1,5 @@
 ﻿using Shared.DataTransferObjects;
 
-using Shared.DataTransferObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,5 +13,8 @@ namespace CompanyEmployee.MVC.API_Clients.Contracts
         Task<LeaveRecordDto> Create(Guid employeeId, LeaveRecordForCreationDto dto);
         Task Update(Guid employeeId, Guid id, LeaveRecordForUpdateDto dto);
         Task Delete(Guid employeeId, Guid id);
+
+        // Phase 1 SP
+        Task<LeaveSummaryDto> GetSummary(Guid employeeId, int year);
     }
 }

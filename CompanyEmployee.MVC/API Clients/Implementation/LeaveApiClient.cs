@@ -47,5 +47,13 @@ namespace CompanyEmployee.MVC.API_Clients.Implementation
             var resp = await _client.DeleteAsync($"leave/employee/{employeeId}/{id}");
             resp.EnsureSuccessStatusCode();
         }
+
+        // Phase 1 SP
+        public async Task<LeaveSummaryDto> GetSummary(Guid employeeId, int year)
+        {
+            var resp = await _client.GetAsync($"leave/employee/{employeeId}/summary/{year}");
+            resp.EnsureSuccessStatusCode();
+            return await resp.Content.ReadFromJsonAsync<LeaveSummaryDto>();
+        }
     }
 }
